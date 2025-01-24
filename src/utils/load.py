@@ -38,7 +38,10 @@ def _load_template(stem: Template) -> DotTemplate:
     try:
         return DotTemplate.read(glob()[stem])
     except KeyError:
-        if (root / stem).is_dir():
+        fullpath = (root / stem).resolve()
+        if not str(fullpath).startswith(str(root.resolve())):
+            raise Exception("Access to the path is not allowed")
+        if fullpath.is_dir():
             return getattr(components, stem)
         raise
 
