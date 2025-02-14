@@ -8,7 +8,7 @@ RUN NODE_ENV=production bun run -b build
 FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim AS py
 WORKDIR /app
 COPY pyproject.toml .
-RUN uv sync --compile-bytecode
+RUN uv sync --compile-bytecode && uv pip install "opentelemetry-sdk<1.30"
 
 FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim AS base
 WORKDIR /app
